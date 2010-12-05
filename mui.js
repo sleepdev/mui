@@ -16,27 +16,34 @@
  * expects a document structure as follows
  * .mui-tabs       
  *     .head (container for titles)
- *     .body (container for content)
- *     .page 
- *         .title (displayed inside of .head)
- *         .content (displayed inside of .body)
+ *         .title (titles will appear in a div like this)
+ *     .page (displayed when .title was clicked or when is .default)
+ *         title (text displayed inside of .head .title div)
+ *     .page .default (initially visible page)
  *  
  */
 $(document).ready(function() {
     $(".mui-tabs").each(function(){
         var tabs = $(this);
         var head = tabs.children(".head");
-        var body = tabs.children(".body");
 
         tabs.children(".page").each(function(){
             var page    = $(this);
-            var title   = page.children(".title");
-            var content = page.children(".content");
+            var title   = page.attr("title"); 
+            page.attr("title","");
+            page.hide(); 
 
-            page.hide();
-            head.append( title );
-            title.bind("click", function(){ body.html(content); });
-            if( page.hasClass("default") ) body.html(content);
+            head.append( '<div class="title">'+title+'</div>' );
+            function activate()
+            {
+                head.children(".title").removeClass("active");
+                head.children(".title:contains('"+title+"')").addClass("active");
+
+                tabs.children(".page").hide();
+                page.show(); 
+            }
+            head.children(".title:contains('"+title+"')").bind("click",activate);
+            if( page.hasClass("default") ) activate();
         });
     });
 });
