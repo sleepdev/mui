@@ -8,23 +8,21 @@
 
 
 
-
 /*
  * Mui Tabs
  * A tabbed UI component
  *
  * expects a document structure as follows
  * .mui-tabs       
- *     .head (container for titles)
- *         .title (titles will appear in a div like this)
  *     .page (displayed when .title was clicked or when is .default)
  *         title (text displayed inside of .head .title div)
- *     .page .default (initially visible page)
+ *     .page.default (initially visible page)
  *  
  */
 $(document).ready(function() {
     $(".mui-tabs").each(function(){
         var tabs = $(this);
+        tabs.prepend('<div class="head"></div>');
         var head = tabs.children(".head");
 
         tabs.children(".page").each(function(){
